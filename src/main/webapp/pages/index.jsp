@@ -31,52 +31,78 @@
     <script type="application/javascript" src="${pageContext.request.contextPath}/js/easyui/locale/easyui-lang-zh_CN.js"  ></script>
     <script>
         $(function(){
-            $("#transASONControl_table").datagrid({
+            $("#datagrid_table").datagrid({
                 rownumbers: true,
                 pagination: true,
                 singleSelect: true,
                 toolbar: $('#grid_tools'),
                 url: "${pageContext.request.contextPath}/json/data.json",
                 method: 'get',
-                title: '11111',
+                title: '多行表单',
                 width: '100%',
                 height: '500',
                 region: 'south',
                 columns:
                         [[
-                            {title:'Item Details',colspan:2},
-                            {field:'itemid',title:'Item ID',rowspan:2,width:80,sortable:true},
+                            {title:'Item Details',colspan:3},
                             {title:'1111Item Details',colspan:2},
                             {field:'productid',title:'Product ID',rowspan:2,width:80,sortable:true}
                         ],[
+                            {field:'attr1',title:'Attribute',width:80},
+                            {field:'status',title:'Status',width:80},
+                            {field:'itemid',title:'Item ID',width:80,sortable:true},
+                            {field:'listprice',title:'List Price',width:80,align:'right',sortable:true},
+                            {field:'unitcost',title:'Unit Cost',width:80,align:'right',sortable:true}
+                        ]]
+            });
+            $("#export").on("click",function(evt){
+                $.exportExcel($("#datagrid_table"),"多行表单sheet名字","多行表单excel文件名称",urlBuild("/excel/export"));
+            });
+            $("#datagrid_table_single").datagrid({
+                rownumbers: true,
+                pagination: true,
+                singleSelect: true,
+                toolbar: $('#grid_tools_single'),
+                url: "${pageContext.request.contextPath}/json/data.json",
+                method: 'get',
+                title: '单行表单',
+                width: '100%',
+                height: '500',
+                region: 'south',
+                columns:
+                        [[
+                            {field:'itemid',title:'Item ID',width:80,sortable:true},
+                            {field:'productid',title:'Product ID',width:80,sortable:true},
                             {field:'attr1',title:'Attribute',width:80},
                             {field:'status',title:'Status',width:80},
                             {field:'listprice',title:'List Price',width:80,align:'right',sortable:true},
                             {field:'unitcost',title:'Unit Cost',width:80,align:'right',sortable:true}
                         ]]
             });
-            $("#transASONControl_export").on("click",function(evt){
-                $.exportExcel($("#transASONControl_table"),"sheet名字","ASON控制域信息列表",urlBuild("/excel/export"));
+            $("#export_single").on("click",function(evt){
+                $.exportExcel($("#datagrid_table_single"),"单行表单sheet名字","单行表单excel文件名称",urlBuild("/excel/export"));
             });
         });
     </script>
 </head>
 <body>
-<div id="transASONControl_layout" class="easyui-layout" data-options="fit:true">
+<div id="layout" class="easyui-layout" data-options="fit:true">
     <div data-options="region:'center',split:true">
         <div class="easyui-layout" data-options="fit:true">
             <div data-options="region:'center'">
-                <div id="grid_tools">
-                    <%--工具栏三个按钮--%>
-                    <%--<a id="transASONControl_add" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add'" plain="true" style="vertical-align: middle;">添加</a>
-                    <a id="transASONControl_save" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" plain="true" style="vertical-align: middle;">编辑</a>
-                    <a id="transASONControl_delete" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" plain="true" style="vertical-align: middle;">删除</a>
-
-                    --%>
-                    <a id="transASONControl_export" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-print'" plain="true" style="vertical-align: middle;">导出</a>
+                <%-- 单行表单 --%>
+                <div id="grid_tools_single">
+                    <%--工具栏按钮--%>
+                    <a id="export_single" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-print'" plain="true" style="vertical-align: middle;">导出</a>
                 </div>
                 <%--表单栏--%>
-                <table id="transASONControl_table" style="width:100%;"></table>
+                <table id="datagrid_table_single" style="width:100%;"></table>
+                <%-- 多行表单 --%>
+                <div id="grid_tools">
+                    <%--工具栏按钮--%>
+                    <a id="export" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-print'" plain="true" style="vertical-align: middle;">导出</a>
+                </div>
+                <table id="datagrid_table" style="width:100%;"></table>
             </div>
         </div>
     </div>

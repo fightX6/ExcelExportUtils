@@ -32,6 +32,12 @@ public class ExportController  {
             map.put("unitcost",i+"_unitcost");
             map.put("attr1",i+"_attr1");
             map.put("status",i+"_status");
+            if(i%20==0){
+                map.put("color","red");
+            }
+            if(i%55==0){
+                map.put("color","blue");
+            }
             data.add(map);
         }
         //导出excel
